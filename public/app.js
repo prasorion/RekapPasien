@@ -689,7 +689,12 @@ function setupEventListeners() {
         localStorage.setItem('token', data.token);
         showPage('year-container');
       } else {
-        errorMsg.classList.remove('hidden');
+        const data = await res.json().catch(() => ({}));
+        if (data.error) {
+          alert('Gagal masuk: ' + data.error);
+        } else {
+          errorMsg.classList.remove('hidden');
+        }
       }
     } catch (err) {
       console.error('Login error:', err);
