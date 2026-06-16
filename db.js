@@ -153,6 +153,16 @@ async function initDb() {
   }
 }
 
+// Helper to normalize keys of returned row objects to lowercase (fixes database-specific casing differences)
+function normalizeKeys(row) {
+  if (!row) return row;
+  const normalized = {};
+  for (const key of Object.keys(row)) {
+    normalized[key.toLowerCase()] = row[key];
+  }
+  return normalized;
+}
+
 // --- List Klaim CRUD operations ---
 
 async function getKlaimRecords(year, month) {
@@ -168,14 +178,15 @@ async function getKlaimRecords(year, month) {
     
     query += ' ORDER BY created_at ASC';
     
-    const [records] = await localPool.query(query, params);
+    const [rawRecords] = await localPool.query(query, params);
+    const records = rawRecords.map(normalizeKeys);
     
     // Fetch dx and tx for each record
     for (const record of records) {
       const [dxRows] = await localPool.query('SELECT dx FROM klaim_dx WHERE klaim_id = ?', [record.id]);
       const [txRows] = await localPool.query('SELECT tx FROM klaim_tx WHERE klaim_id = ?', [record.id]);
-      record.dx = dxRows.map(r => r.dx);
-      record.tx = txRows.map(r => r.tx);
+      record.dx = dxRows.map(r => r.dx !== undefined ? r.dx : r.DX);
+      record.tx = txRows.map(r => r.tx !== undefined ? r.tx : r.TX);
     }
     
     return records;
@@ -343,7 +354,8 @@ async function getRadiologiRecords(year, month, tipe) {
     }
     
     query += ' ORDER BY created_at ASC';
-    const [records] = await localPool.query(query, params);
+    const [rawRecords] = await localPool.query(query, params);
+    const records = rawRecords.map(normalizeKeys);
     return records;
   } else {
     const db = readLocalFile();
