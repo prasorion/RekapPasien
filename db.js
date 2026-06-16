@@ -25,6 +25,9 @@ function getPool() {
         minVersion: 'TLSv1.2'
       },
       connectionLimit: 10,
+      connectTimeout: 20000,
+      waitForConnections: true,
+      queueLimit: 0,
       enableKeepAlive: true,
       keepAliveInitialDelay: 0
     });
