@@ -22,6 +22,16 @@ app.use(express.json());
 // Serve static frontend files from 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+let dbInitError = null;
+
+// Middleware to verify database status
+app.use('/api', (req, res, next) => {
+  if (dbInitError) {
+    return res.status(500).json({ error: 'Inisialisasi Database Gagal. Detail: ' + dbInitError.message });
+  }
+  next();
+});
+
 // Simple ID Generator helper
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
@@ -302,15 +312,15 @@ app.get('/api/export/radiologi', requireAuth, async (req, res) => {
 });
 
 // Startup logic with DB initialization
-initDb().then(() => {
-  if (process.env.NODE_ENV !== 'production' || require.main === module) {
-    app.listen(PORT, () => {
-      console.log(`Server ICU/HCU Patient Recap running on http://localhost:${PORT}`);
-    });
-  }
-}).catch(err => {
+initDb().catch(err => {
   console.error('Failed to initialize database pool:', err);
-  process.exit(1);
+  dbInitError = err;
 });
+
+if (process.env.NODE_ENV !== 'production' || require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server ICU/HCU Patient Recap running on http://localhost:${PORT}`);
+  });
+}
 
 module.exports = app;
