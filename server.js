@@ -67,7 +67,7 @@ app.get('/api/klaim', requireAuth, async (req, res) => {
     res.json(results);
   } catch (err) {
     console.error('Error fetching klaim:', err);
-    res.status(500).json({ error: 'Gagal mengambil data List Klaim.' });
+    res.status(500).json({ error: 'Gagal mengambil data List Klaim. Detail: ' + err.message });
   }
 });
 
@@ -108,7 +108,7 @@ app.post('/api/klaim', requireAuth, async (req, res) => {
     res.status(201).json(saved);
   } catch (err) {
     console.error('Error inserting klaim:', err);
-    res.status(500).json({ error: 'Gagal menyimpan data List Klaim.' });
+    res.status(500).json({ error: 'Gagal menyimpan data List Klaim. Detail: ' + err.message });
   }
 });
 
@@ -144,7 +144,7 @@ app.put('/api/klaim/:id', requireAuth, async (req, res) => {
     res.json(updated);
   } catch (err) {
     console.error('Error updating klaim:', err);
-    res.status(500).json({ error: 'Gagal memperbarui data List Klaim.' });
+    res.status(500).json({ error: 'Gagal memperbarui data List Klaim. Detail: ' + err.message });
   }
 });
 
@@ -160,7 +160,7 @@ app.delete('/api/klaim/:id', requireAuth, async (req, res) => {
     res.json({ success: true, message: 'Data List Klaim berhasil dihapus.' });
   } catch (err) {
     console.error('Error deleting klaim:', err);
-    res.status(500).json({ error: 'Gagal menghapus data List Klaim.' });
+    res.status(500).json({ error: 'Gagal menghapus data List Klaim. Detail: ' + err.message });
   }
 });
 
@@ -179,7 +179,7 @@ app.get('/api/radiologi', requireAuth, async (req, res) => {
     res.json(results);
   } catch (err) {
     console.error('Error fetching radiologi:', err);
-    res.status(500).json({ error: 'Gagal mengambil data Radiologi.' });
+    res.status(500).json({ error: 'Gagal mengambil data Radiologi. Detail: ' + err.message });
   }
 });
 
@@ -210,7 +210,7 @@ app.post('/api/radiologi', requireAuth, async (req, res) => {
     res.status(201).json(saved);
   } catch (err) {
     console.error('Error adding radiologi:', err);
-    res.status(500).json({ error: 'Gagal menyimpan data Radiologi.' });
+    res.status(500).json({ error: 'Gagal menyimpan data Radiologi. Detail: ' + err.message });
   }
 });
 
@@ -239,7 +239,7 @@ app.put('/api/radiologi/:id', requireAuth, async (req, res) => {
     res.json(updated);
   } catch (err) {
     console.error('Error updating radiologi:', err);
-    res.status(500).json({ error: 'Gagal memperbarui data Radiologi.' });
+    res.status(500).json({ error: 'Gagal memperbarui data Radiologi. Detail: ' + err.message });
   }
 });
 
@@ -255,7 +255,7 @@ app.delete('/api/radiologi/:id', requireAuth, async (req, res) => {
     res.json({ success: true, message: 'Data Radiologi berhasil dihapus.' });
   } catch (err) {
     console.error('Error deleting radiologi:', err);
-    res.status(500).json({ error: 'Gagal menghapus data Radiologi.' });
+    res.status(500).json({ error: 'Gagal menghapus data Radiologi. Detail: ' + err.message });
   }
 });
 
