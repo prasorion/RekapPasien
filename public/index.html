@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekap Pasien ICU & HCU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= AUTH CONTAINER ================= -->
+  <div id="auth-container" class="page-container active">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="logo-icon"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <h2>Login Admin</h2>
+      <p class="auth-subtitle">Rekap Pasien ICU dan HCU</p>
+      
+      <div id="login-error" class="alert alert-danger hidden">Username atau Password salah.</div>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" required placeholder="Masukkan username admin..." value="admin">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="Masukkan password admin..." value="admin">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= YEAR SELECT CONTAINER ================= -->
+  <div id="year-container" class="page-container">
+    <div class="year-card">
+      <h2>Pilih Tahun Pendataan</h2>
+      <p class="year-subtitle">Silakan pilih tahun untuk menginput atau mengekspor data</p>
+      
+      <div class="year-options">
+        <button class="year-btn" data-year="2025">2025</button>
+        <button class="year-btn active" data-year="2026">2026</button>
+        <button class="year-btn" data-year="2027">2027</button>
+        <button class="year-btn" data-year="2028">2028</button>
+      </div>
+      
+      <div class="custom-year-input">
+        <input type="number" id="custom-year" placeholder="Tahun Lainnya (cth: 2030)" min="2000" max="2100">
+        <button id="custom-year-btn" class="btn btn-secondary">Pilih</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD CONTAINER ================= -->
+  <div id="dashboard-container" class="page-container">
+    <!-- Navbar Top -->
+    <header class="app-header">
+      <div class="header-brand">
+        <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="logo-icon"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <h1>Rekap Pasien</h1>
+        <span class="badge badge-year" id="display-year">2026</span>
+      </div>
+      
+      <div class="header-actions">
+        <div class="user-profile">
+          <span class="user-role">Administrator</span>
+        </div>
+        <button id="change-year-btn" class="btn btn-text">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="icon"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Ubah Tahun
+        </button>
+        <button id="logout-btn" class="btn btn-danger-outline">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Keluar
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="workspace-layout">
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-target="section-klaim">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" class="icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          List Klaim (ICU)
+        </button>
+        <button class="nav-item" data-target="section-radiologi">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" class="icon"><path d="M5 12h14"/><path d="M12 5v14"/><circle cx="12" cy="12" r="10"/></svg>
+          Radiologi (ICU & HCU)
+        </button>
+        <button class="nav-item" data-target="section-cetak">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" class="icon"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Cetak Data
+        </button>
+      </nav>
+
+      <!-- Main Content Area -->
+      <main class="content-body">
+        
+        <!-- ================= SECTION 1: LIST KLAIM ================= -->
+        <section id="section-klaim" class="dashboard-section active">
+          <div class="section-header">
+            <div>
+              <h2>List Klaim ICU</h2>
+              <p class="section-desc">Pencatatan biaya pasien di ICU per bulanan</p>
+            </div>
+            <button id="add-klaim-btn" class="btn btn-primary">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" class="icon"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Tambah Draft Pasien
+            </button>
+          </div>
+
+          <!-- Month Filter bar -->
+          <div class="month-filters" id="klaim-month-filters">
+            <!-- Rendered by js -->
+          </div>
+
+          <!-- Filters bar -->
+          <div class="filter-actions-bar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="klaim-search" placeholder="Cari berdasarkan No RM / Nama Pasien...">
+            </div>
+            <div class="total-summary-badge" id="klaim-month-total">
+              Total PLUS/MINUS Bulan Ini: <strong id="klaim-sum-value">Rp0</strong>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="table-klaim">
+                <thead>
+                  <tr>
+                    <th>NO</th>
+                    <th>NO RM</th>
+                    <th>DX</th>
+                    <th>TX</th>
+                    <th>KLAIM</th>
+                    <th>BILING</th>
+                    <th>KELAS</th>
+                    <th>PLUS/MINUS</th>
+                    <th>KRS</th>
+                    <th>TGL KERJA</th>
+                    <th>CATATAN</th>
+                    <th>LOS</th>
+                    <th class="col-actions">AKSI</th>
+                  </tr>
+                </thead>
+                <tbody id="klaim-list">
+                  <!-- Rendered by js -->
+                </tbody>
+              </table>
+            </div>
+            <div id="klaim-empty" class="empty-state hidden">
+              <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" class="empty-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+              <p>Tidak ada data draft untuk bulan ini.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 2: RADIOLOGI ================= -->
+        <section id="section-radiologi" class="dashboard-section">
+          <div class="section-header">
+            <div>
+              <h2>Bacaan Radiologi <span id="radiologi-type-title">ICU</span></h2>
+              <p class="section-desc">Pencatatan pemeriksaan radiologi pasien ICU & HCU per bulanan</p>
+            </div>
+            <div class="header-button-group">
+              <div class="type-toggle-group">
+                <button class="toggle-btn active" id="btn-toggle-icu" data-type="ICU">ICU</button>
+                <button class="toggle-btn" id="btn-toggle-hcu" data-type="HCU">HCU</button>
+              </div>
+              <button id="add-radiologi-btn" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" class="icon"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Tambah Draft Radiologi
+              </button>
+            </div>
+          </div>
+
+          <!-- Month Filter bar -->
+          <div class="month-filters" id="radiologi-month-filters">
+            <!-- Rendered by js -->
+          </div>
+
+          <!-- Filters bar -->
+          <div class="filter-actions-bar">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="radiologi-search" placeholder="Cari berdasarkan No RM / Nama Pasien...">
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="data-table" id="table-radiologi">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>NO RM / NAMA</th>
+                    <th>TGL PEMERIKSAAN</th>
+                    <th>TANGGAL KRS</th>
+                    <th>PERMINTAAN RADIOLOGI</th>
+                    <th>DIAGNOSA</th>
+                    <th class="col-actions">AKSI</th>
+                  </tr>
+                </thead>
+                <tbody id="radiologi-list">
+                  <!-- Rendered by js -->
+                </tbody>
+              </table>
+            </div>
+            <div id="radiologi-empty" class="empty-state hidden">
+              <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" class="empty-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+              <p>Tidak ada data draft untuk bulan ini.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= SECTION 3: CETAK ================= -->
+        <section id="section-cetak" class="dashboard-section">
+          <div class="section-header">
+            <div>
+              <h2>Cetak & Ekspor Data Excel</h2>
+              <p class="section-desc">Unduh berkas Excel rekapitulasi data pasien tahunan Anda</p>
+            </div>
+          </div>
+
+          <div class="cetak-grid">
+            <!-- Card 1 -->
+            <div class="cetak-card">
+              <div class="cetak-card-icon color-klaim">
+                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+              </div>
+              <h3>Ekspor List Klaim (ICU)</h3>
+              <p>Mengunduh file Excel rekapitulasi klaim biaya pasien ICU. Data per bulan akan diekspor dalam lembar kerja (sheet) terpisah lengkap dengan rumus penjumlahan TOTAL.</p>
+              <button id="export-klaim-btn" class="btn btn-primary btn-block">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Unduh List Diagnosa Excel
+              </button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="cetak-card">
+              <div class="cetak-card-icon color-radio">
+                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <h3>Ekspor Bacaan Radiologi</h3>
+              <p>Mengunduh file Excel rekapitulasi pemeriksaan radiologi. Data ICU dan HCU akan dijadikan satu file namun berada di sheet yang berbeda dengan bulan tersusun vertikal.</p>
+              <button id="export-radiologi-btn" class="btn btn-primary btn-block">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Unduh Radiologi Excel
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ================================================================= -->
+  <!-- ========================== MODALS AREA ========================== -->
+  <!-- ================================================================= -->
+
+  <!-- MODAL: KLAIM FORM -->
+  <div id="modal-klaim" class="modal-backdrop">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h3 id="modal-klaim-title">Tambah Draft Pasien ICU</h3>
+        <button class="modal-close" data-close="modal-klaim">&times;</button>
+      </div>
+      <form id="form-klaim">
+        <input type="hidden" id="klaim-id">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="klaim-no-rm">NO RM / NAMA PASIEN</label>
+              <input type="text" id="klaim-no-rm" placeholder="cth: 0414599 / ISNANDAR.TN">
+              <small class="form-tip">Masukkan nomor rekam medis beserta nama pasien</small>
+            </div>
+            <div class="form-group col-3">
+              <label for="klaim-kelas">KELAS</label>
+              <input type="text" id="klaim-kelas" placeholder="cth: 3" value="3">
+            </div>
+            <div class="form-group col-3">
+              <label for="klaim-los">LOS (Lama Rawat)</label>
+              <input type="text" id="klaim-los" placeholder="cth: 4 HARI">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label>DIAGNOSA (DX) <span class="badge badge-info" id="btn-add-dx" style="cursor:pointer; margin-left: 10px;">+ Tambah DX</span></label>
+              <div id="dx-list-inputs" class="dynamic-inputs-container">
+                <!-- Inputs added dynamically -->
+              </div>
+            </div>
+            <div class="form-group col-6">
+              <label>TINDAKAN (TX) <span class="badge badge-info" id="btn-add-tx" style="cursor:pointer; margin-left: 10px;">+ Tambah TX</span></label>
+              <div id="tx-list-inputs" class="dynamic-inputs-container">
+                <!-- Inputs added dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row border-top pt-15">
+            <div class="form-group col-4">
+              <label for="klaim-klaim">BIAYA KLAIM (Rp)</label>
+              <input type="number" id="klaim-klaim" placeholder="cth: 22324000" min="0" value="0">
+            </div>
+            <div class="form-group col-4">
+              <label for="klaim-biling">BIAYA BILLING (Rp)</label>
+              <input type="number" id="klaim-biling" placeholder="cth: 21627222" min="0" value="0">
+            </div>
+            <div class="form-group col-4">
+              <label for="klaim-plusminus">PLUS / MINUS (Rp)</label>
+              <input type="number" id="klaim-plusminus" placeholder="Otomatis terhitung..." value="0">
+              <small class="form-tip">Biarkan default untuk perhitungan otomatis (KLAIM - BILING)</small>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="klaim-krs">TANGGAL KRS</label>
+              <input type="date" id="klaim-krs">
+            </div>
+            <div class="form-group col-6">
+              <label for="klaim-tgl-kerja">TANGGAL MENGERJAKAN</label>
+              <input type="date" id="klaim-tgl-kerja">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="klaim-catatan">CATATAN</label>
+            <textarea id="klaim-catatan" rows="3" placeholder="Masukkan catatan tambahan jika ada..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="modal-klaim">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Draft</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL: RADIOLOGI FORM -->
+  <div id="modal-radiologi" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-radiologi-title">Tambah Draft Radiologi ICU</h3>
+        <button class="modal-close" data-close="modal-radiologi">&times;</button>
+      </div>
+      <form id="form-radiologi">
+        <input type="hidden" id="radiologi-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="radio-no-rm-nama">NO RM / NAMA PASIEN <span class="required">*</span></label>
+            <input type="text" id="radio-no-rm-nama" required placeholder="cth: 0415561 / DIMO.TN">
+            <small class="form-tip">Format wajib: "No RM" / "Nama Pasien"</small>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="radio-tgl-pemeriksaan">TANGGAL PEMERIKSAAN <span class="required">*</span></label>
+              <input type="date" id="radio-tgl-pemeriksaan" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="radio-tgl-krs">TANGGAL KRS <span class="required">*</span></label>
+              <input type="date" id="radio-tgl-krs" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="radio-permintaan">PERMINTAAN RADIOLOGI <span class="required">*</span></label>
+            <input type="text" id="radio-permintaan" required placeholder="cth: THORAX & BOF">
+          </div>
+
+          <div class="form-group">
+            <label for="radio-diagnosa">DIAGNOSA <span class="required">*</span></label>
+            <input type="text" id="radio-diagnosa" required placeholder="cth: ABSES HEPAR + PNEUMONIA">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="modal-radiologi">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Draft</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+{
+  "listKlaim": [
+    {
+      "id": "mqg0bcqvuyhmo",
+      "year": 2026,
+      "month": "APRIL",
+      "no_rm": "0414599 / ISNANDAR.TN",
+      "dx": [
+        "S09.7 (SAH SDH)",
+        "J96.9"
+      ],
+      "tx": [
+        "96.71"
+      ],
+      "klaim": 22324000,
+      "biling": 21627222,
+      "kelas": "3",
+      "plus_minus": 696778,
+      "krs": "2026-04-01",
+      "tgl_mengerjakan": "2026-04-02",
+      "catatan": "KULTUR - BOF",
+      "los": "4 HARI",
+      "createdAt": "2026-06-16T02:12:19.399Z"
+    },
+    {
+      "id": "mqg0bcr2ps6xs",
+      "year": 2026,
+      "month": "APRIL",
+      "no_rm": "0414710 / HADI ASTOMO.TN",
+      "dx": [
+        "S36.40 (PerforasiI Jejunum)",
+        "J95.9"
+      ],
+      "tx": [
+        "96.71",
+        "46.52 (Reseksi)"
+      ],
+      "klaim": 25374900,
+      "biling": 35498856,
+      "kelas": "3",
+      "plus_minus": -10123956,
+      "krs": "2026-04-03",
+      "tgl_mengerjakan": "2026-04-04",
+      "catatan": "KULTUR - BOF - THORAX",
+      "los": "3 HARI",
+      "createdAt": "2026-06-16T02:12:19.406Z"
+    },
+    {
+      "id": "mqg0o6mvayh73",
+      "year": 2026,
+      "month": "MEI",
+      "no_rm": "123456 / ghfr",
+      "dx": [
+        "k40.9",
+        "j95.9"
+      ],
+      "tx": [
+        "96.71"
+      ],
+      "klaim": 123000,
+      "biling": 1200001,
+      "kelas": "3",
+      "plus_minus": -1077001,
+      "krs": "2026-06-09",
+      "tgl_mengerjakan": "2026-06-16",
+      "catatan": "-",
+      "los": "3",
+      "createdAt": "2026-06-16T02:22:18.007Z"
+    },
+    {
+      "id": "mqg0y84gw15wb",
+      "year": 2026,
+      "month": "APRIL",
+      "no_rm": "0414599 / ISNANDAR.TN",
+      "dx": [
+        "S09.7 (SAH SDH)",
+        "J96.9"
+      ],
+      "tx": [
+        "96.71"
+      ],
+      "klaim": 22324000,
+      "biling": 21627222,
+      "kelas": "3",
+      "plus_minus": 696778,
+      "krs": "2026-04-01",
+      "tgl_mengerjakan": "2026-04-02",
+      "catatan": "KULTUR - BOF",
+      "los": "4 HARI",
+      "createdAt": "2026-06-16T02:30:06.496Z"
+    },
+    {
+      "id": "mqg0y84nsp3v4",
+      "year": 2026,
+      "month": "APRIL",
+      "no_rm": "0414710 / HADI ASTOMO.TN",
+      "dx": [
+        "S36.40 (PerforasiI Jejunum)",
+        "J95.9"
+      ],
+      "tx": [
+        "96.71",
+        "46.52 (Reseksi)"
+      ],
+      "klaim": 25374900,
+      "biling": 35498856,
+      "kelas": "3",
+      "plus_minus": -10123956,
+      "krs": "2026-04-03",
+      "tgl_mengerjakan": "2026-04-04",
+      "catatan": "KULTUR - BOF - THORAX",
+      "los": "3 HARI",
+      "createdAt": "2026-06-16T02:30:06.503Z"
+    },
+    {
+      "id": "mqg0ywse149dg",
+      "year": 2026,
+      "month": "APRIL",
+      "no_rm": "0414599 / ISNANDAR.TN",
+      "dx": [
+        "S09.7 (SAH SDH)",
+        "J96.9"
+      ],
+      "tx": [
+        "96.71"
+      ],
+      "klaim": 22324000,
+      "biling": 21627222,
+      "kelas": "3",
+      "plus_minus": 696778,
+      "krs": "2026-04-01",
+      "tgl_mengerjakan": "2026-04-02",
+      "catatan": "KULTUR - BOF",
+      "los": "4 HARI",
+      "createdAt": "2026-06-16T02:30:38.462Z"
+    },
+    {
+      "id": "mqg0ywslwgeyh",
+      "year": 2026,
+      "month": "APRIL",
+      "no_rm": "0414710 / HADI ASTOMO.TN",
+      "dx": [
+        "S36.40 (PerforasiI Jejunum)",
+        "J95.9"
+      ],
+      "tx": [
+        "96.71",
+        "46.52 (Reseksi)"
+      ],
+      "klaim": 25374900,
+      "biling": 35498856,
+      "kelas": "3",
+      "plus_minus": -10123956,
+      "krs": "2026-04-03",
+      "tgl_mengerjakan": "2026-04-04",
+      "catatan": "KULTUR - BOF - THORAX",
+      "los": "3 HARI",
+      "createdAt": "2026-06-16T02:30:38.469Z"
+    }
+  ],
+  "radiologi": [
+    {
+      "id": "mqg0bcrezhk4r",
+      "year": 2026,
+      "month": "APRIL",
+      "tipe": "HCU",
+      "no_rm_nama": "0323813 / HENDRIK SETYADI",
+      "tgl_pemeriksaan": "2026-04-17",
+      "tgl_krs": "2026-04-29",
+      "permintaan": "FOTO THORAX + BOF",
+      "diagnosa": "LIVER DISEASE, AKI",
+      "createdAt": "2026-06-16T02:12:19.418Z"
+    },
+    {
+      "id": "mqg0bcroz6axj",
+      "year": 2026,
+      "month": "MEI",
+      "tipe": "HCU",
+      "no_rm_nama": "0195772 / NGAJIANI.NY",
+      "tgl_pemeriksaan": "2026-05-13",
+      "tgl_krs": "2026-05-14",
+      "permintaan": "FOTO THORAX + BOF",
+      "diagnosa": "CONSTIPASI, ACITES",
+      "createdAt": "2026-06-16T02:12:19.428Z"
+    },
+    {
+      "id": "mqg0bcrstqx2y",
+      "year": 2026,
+      "month": "APRIL",
+      "tipe": "ICU",
+      "no_rm_nama": "0415561 / DIMO.TN",
+      "tgl_pemeriksaan": "2026-04-10",
+      "tgl_krs": "2026-04-19",
+      "permintaan": "THORAX & BOF",
+      "diagnosa": "ABSES HEPAR + PNEUMONIA",
+      "createdAt": "2026-06-16T02:12:19.432Z"
+    },
+    {
+      "id": "mqg0qswf5oyvj",
+      "year": 2026,
+      "month": "APRIL",
+      "tipe": "ICU",
+      "no_rm_nama": "12345 / ght",
+      "tgl_pemeriksaan": "2026-06-02",
+      "tgl_krs": "2026-06-16",
+      "permintaan": "ct scan kepala",
+      "diagnosa": "ABSES",
+      "createdAt": "2026-06-16T02:24:20.175Z"
+    },
+    {
+      "id": "mqg0y84w8gz6e",
+      "year": 2026,
+      "month": "APRIL",
+      "tipe": "HCU",
+      "no_rm_nama": "0323813 / HENDRIK SETYADI",
+      "tgl_pemeriksaan": "2026-04-17",
+      "tgl_krs": "2026-04-29",
+      "permintaan": "FOTO THORAX + BOF",
+      "diagnosa": "LIVER DISEASE, AKI",
+      "createdAt": "2026-06-16T02:30:06.512Z"
+    },
+    {
+      "id": "mqg0y853ivk1m",
+      "year": 2026,
+      "month": "MEI",
+      "tipe": "HCU",
+      "no_rm_nama": "0195772 / NGAJIANI.NY",
+      "tgl_pemeriksaan": "2026-05-13",
+      "tgl_krs": "2026-05-14",
+      "permintaan": "FOTO THORAX + BOF",
+      "diagnosa": "CONSTIPASI, ACITES",
+      "createdAt": "2026-06-16T02:30:06.519Z"
+    },
+    {
+      "id": "mqg0y857ejit0",
+      "year": 2026,
+      "month": "APRIL",
+      "tipe": "ICU",
+      "no_rm_nama": "0415561 / DIMO.TN",
+      "tgl_pemeriksaan": "2026-04-10",
+      "tgl_krs": "2026-04-19",
+      "permintaan": "THORAX & BOF",
+      "diagnosa": "ABSES HEPAR + PNEUMONIA",
+      "createdAt": "2026-06-16T02:30:06.523Z"
+    },
+    {
+      "id": "mqg0ywt79mris",
+      "year": 2026,
+      "month": "APRIL",
+      "tipe": "HCU",
+      "no_rm_nama": "0323813 / HENDRIK SETYADI",
+      "tgl_pemeriksaan": "2026-04-17",
+      "tgl_krs": "2026-04-29",
+      "permintaan": "FOTO THORAX + BOF",
+      "diagnosa": "LIVER DISEASE, AKI",
+      "createdAt": "2026-06-16T02:30:38.491Z"
+    },
+    {
+      "id": "mqg0ywtc5tg1g",
+      "year": 2026,
+      "month": "MEI",
+      "tipe": "HCU",
+      "no_rm_nama": "0195772 / NGAJIANI.NY",
+      "tgl_pemeriksaan": "2026-05-13",
+      "tgl_krs": "2026-05-14",
+      "permintaan": "FOTO THORAX + BOF",
+      "diagnosa": "CONSTIPASI, ACITES",
+      "createdAt": "2026-06-16T02:30:38.496Z"
+    },
+    {
+      "id": "mqg0ywtgzb4fj",
+      "year": 2026,
+      "month": "APRIL",
+      "tipe": "ICU",
+      "no_rm_nama": "0415561 / DIMO.TN",
+      "tgl_pemeriksaan": "2026-04-10",
+      "tgl_krs": "2026-04-19",
+      "permintaan": "THORAX & BOF",
+      "diagnosa": "ABSES HEPAR + PNEUMONIA",
+      "createdAt": "2026-06-16T02:30:38.500Z"
+    },
+    {
+      "id": "mqg12mv43rad0",
+      "year": 2027,
+      "month": "APRIL",
+      "tipe": "ICU",
+      "no_rm_nama": "12345 / ght",
+      "tgl_pemeriksaan": "2026-06-19",
+      "tgl_krs": "2026-06-22",
+      "permintaan": "ct scan kepala",
+      "diagnosa": "ABSES",
+      "createdAt": "2026-06-16T02:33:32.224Z"
+    }
+  ]
+}
