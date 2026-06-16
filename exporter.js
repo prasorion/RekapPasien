@@ -149,11 +149,18 @@ async function exportListKlaim(year, records) {
           
           // PLUS / MINUS Column
           const plusMinusCell = row.getCell(8);
+          const computedVal = Number(record.klaim || 0) - Number(record.biling || 0);
           // If the user manually provided a value, we can use it, otherwise use the Excel formula
           if (record.plus_minus !== undefined && record.plus_minus !== null && record.plus_minus !== '') {
-            plusMinusCell.value = Number(record.plus_minus);
+            plusMinusCell.value = { 
+              formula: `E${currentRowIdx}-F${currentRowIdx}`, 
+              result: Number(record.plus_minus) 
+            };
           } else {
-            plusMinusCell.value = { formula: `E${currentRowIdx}-F${currentRowIdx}` };
+            plusMinusCell.value = { 
+              formula: `E${currentRowIdx}-F${currentRowIdx}`, 
+              result: computedVal 
+            };
           }
           plusMinusCell.numFmt = '[$Rp-421]#,##0';
           plusMinusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFFFF' } };
@@ -197,11 +204,16 @@ async function exportListKlaim(year, records) {
     // Calculate total PLUS/MINUS
     const plusMinusSumCell = totalRow.getCell(8);
     // Find all rows where first-line patients are placed
-    let formulaRange = '';
     let tempRow = 5;
     const formulaRows = [];
+    let calculatedTotal = 0;
     for (const record of monthRecords) {
       formulaRows.push(tempRow);
+      const val = record.plus_minus !== undefined && record.plus_minus !== null && record.plus_minus !== '' 
+        ? Number(record.plus_minus) 
+        : (Number(record.klaim || 0) - Number(record.biling || 0));
+      calculatedTotal += val;
+      
       const dxs = Array.isArray(record.dx) && record.dx.length > 0 ? record.dx : [''];
       const txs = Array.isArray(record.tx) && record.tx.length > 0 ? record.tx : [''];
       tempRow += Math.max(dxs.length, txs.length);
@@ -210,7 +222,10 @@ async function exportListKlaim(year, records) {
     if (formulaRows.length > 0) {
       // Create sum list like H5+H7+H11 or simply sum the whole column which is fine too
       // Excel SUM ignores empty strings, so SUM(H5:H{currentRowIdx-1}) is perfect and handles everything correctly!
-      plusMinusSumCell.value = { formula: `SUM(H5:H${totalRowIdx - 1})` };
+      plusMinusSumCell.value = { 
+        formula: `SUM(H5:H${totalRowIdx - 1})`,
+        result: calculatedTotal
+      };
     } else {
       plusMinusSumCell.value = 0;
     }
@@ -266,9 +281,9 @@ async function exportRadiologi(year, records) {
       }
       
       // Title Row
-      // Merged B:F (Cols 2 to 6). Col A (No) is empty.
-      sheet.mergeCells(`B${currentRowIdx}:F${currentRowIdx}`);
-      const titleCell = sheet.getCell(`B${currentRowIdx}`);
+      // Merged A:F (Cols 1 to 6).
+      sheet.mergeCells(`A${currentRowIdx}:F${currentRowIdx}`);
+      const titleCell = sheet.getCell(`A${currentRowIdx}`);
       titleCell.value = `BACAAN RADIOLOGI (-) ${type} (BULAN ${month})`;
       titleCell.font = { name: 'Arial', size: 10, bold: true };
       titleCell.fill = {
