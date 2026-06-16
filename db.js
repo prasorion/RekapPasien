@@ -142,8 +142,12 @@ async function initDb() {
       
       console.log('TiDB database tables checked/initialized successfully.');
     } catch (err) {
-      console.error('Failed to initialize TiDB tables:', err);
-      throw err;
+      if (err.message && (err.message.includes('denied') || err.code === 'ER_TABLEACCESS_DENIED_ERROR' || err.code === 'ER_DBACCESS_DENIED_ERROR')) {
+        console.warn('CREATE command denied. Assuming tables already exist. Warning:', err.message);
+      } else {
+        console.error('Failed to initialize TiDB tables:', err);
+        throw err;
+      }
     } finally {
       connection.release();
     }
