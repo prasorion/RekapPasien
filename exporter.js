@@ -139,11 +139,11 @@ async function exportListKlaim(year, records) {
           
           const klaimCell = row.getCell(5);
           klaimCell.value = record.klaim !== undefined ? Number(record.klaim) : null;
-          klaimCell.numFmt = '[$Rp-421]#,##0';
+          klaimCell.numFmt = '[$Rp-421]#,##0.00';
           
           const bilingCell = row.getCell(6);
           bilingCell.value = record.biling !== undefined ? Number(record.biling) : null;
-          bilingCell.numFmt = '[$Rp-421]#,##0';
+          bilingCell.numFmt = '[$Rp-421]#,##0.00';
           
           row.getCell(7).value = record.kelas !== undefined ? String(record.kelas) : '';
           
@@ -162,7 +162,7 @@ async function exportListKlaim(year, records) {
               result: computedVal 
             };
           }
-          plusMinusCell.numFmt = '[$Rp-421]#,##0';
+          plusMinusCell.numFmt = '[$Rp-421]#,##0.00';
           plusMinusCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFFFFFF' } };
           
           // Dates
@@ -229,7 +229,7 @@ async function exportListKlaim(year, records) {
     } else {
       plusMinusSumCell.value = 0;
     }
-    plusMinusSumCell.numFmt = '[$Rp-421]#,##0';
+    plusMinusSumCell.numFmt = '[$Rp-421]#,##0.00';
   }
   
   return await workbook.xlsx.writeBuffer();

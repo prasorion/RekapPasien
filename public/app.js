@@ -3,33 +3,116 @@
 // ================================================================= //
 
 let selectedYear = null;
-let activeMonthKlaim = "APRIL";
-let activeMonthRadiologi = "APRIL";
-let activeRadiologiType = "ICU"; // "ICU" or "HCU"
-
-let klaimRecords = [];
-let radiologiRecords = [];
-
 const MONTHS = [
   "JANUARI", "FEBRUARI", "MARET", "APRIL", "MEI", "JUNI",
   "JULI", "AGUSTUS", "SEPTEMBER", "OKTOBER", "NOVEMBER", "DESEMBER"
 ];
+const currentDeviceMonth = MONTHS[new Date().getMonth()] || "JULI";
+let activeMonthKlaim = currentDeviceMonth;
+let activeMonthRadiologi = currentDeviceMonth;
+let activeRadiologiType = "ICU"; // "ICU" or "HCU"
+
+let klaimRecords = [];
+let radiologiRecords = [];
 
 // ================================================================= //
 // ==================== HELPER UTILITY FUNCTIONS ==================== //
 // ================================================================= //
 
 function formatRupiah(num) {
-  if (num === undefined || num === null || isNaN(num)) return "Rp0";
+  if (num === undefined || num === null || isNaN(num)) return "Rp0,00";
   const absVal = Math.abs(num);
   const formatted = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
   }).format(absVal);
   
   return num < 0 ? `-${formatted}` : formatted;
+}
+
+// Extract float number from Indonesian formatted string (e.g. "22.324.000,00" -> 22324000)
+function parseFormattedNumber(valStr) {
+  if (!valStr) return 0;
+  let str = String(valStr).trim();
+  if (str === '') return 0;
+  
+  // Remove currency symbol (Rp)
+  str = str.replace(/Rp\s?/g, '');
+  
+  // Find decimal part
+  let integerPart = str;
+  let decimalPart = '00';
+  
+  // Check if there is a decimal separator at the end
+  const lastDot = str.lastIndexOf('.');
+  const lastComma = str.lastIndexOf(',');
+  const lastSeparator = Math.max(lastDot, lastComma);
+  
+  if (lastSeparator !== -1 && lastSeparator > str.length - 4) {
+    integerPart = str.substring(0, lastSeparator);
+    decimalPart = str.substring(lastSeparator + 1);
+    if (decimalPart.length === 1) {
+      decimalPart += '0';
+    } else if (decimalPart.length > 2) {
+      decimalPart = decimalPart.substring(0, 2);
+    }
+  }
+  
+  // Strip all non-digits
+  const cleanedInt = integerPart.replace(/\D/g, '');
+  const cleanedDec = decimalPart.replace(/\D/g, '');
+  
+  const parsedInt = parseInt(cleanedInt) || 0;
+  const parsedDec = parseInt(cleanedDec) || 0;
+  
+  return parseFloat(`${parsedInt}.${parsedDec}`);
+}
+
+// Convert float number to Indonesian formatted string (e.g. 22324000 -> "22.324.000,00")
+function formatNumberToIndonesian(num) {
+  if (num === undefined || num === null || isNaN(num)) return "0,00";
+  const parts = Number(num).toFixed(2).split('.');
+  const integerPart = parts[0];
+  const decimalPart = parts[1];
+  
+  const formattedInt = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return `${formattedInt},${decimalPart}`;
+}
+
+// Setup formatting handlers for form text inputs
+function setupFormattedInput(inputId) {
+  const el = document.getElementById(inputId);
+  if (!el) return;
+  
+  el.addEventListener('focus', (e) => {
+    const val = parseFormattedNumber(el.value);
+    if (val === 0) {
+      el.value = '';
+    } else {
+      el.value = val.toFixed(2).replace('.', ',');
+    }
+  });
+  
+  el.addEventListener('blur', (e) => {
+    const val = parseFormattedNumber(el.value);
+    el.value = formatNumberToIndonesian(val);
+    calculatePlusMinus();
+  });
+}
+
+function calculatePlusMinus() {
+  const klaimIn = document.getElementById('klaim-klaim');
+  const bilingIn = document.getElementById('klaim-biling');
+  const plusMinusIn = document.getElementById('klaim-plusminus');
+  if (!klaimIn || !bilingIn || !plusMinusIn) return;
+  
+  const klaim = parseFormattedNumber(klaimIn.value);
+  const biling = parseFormattedNumber(bilingIn.value);
+  
+  const plusMinus = klaim - biling;
+  plusMinusIn.value = formatNumberToIndonesian(plusMinus);
 }
 
 function formatDate(dateStr) {
@@ -391,20 +474,20 @@ document.getElementById('btn-add-tx').addEventListener('click', () => {
   renderTxInputs(inputs);
 });
 
-// Auto-calculate plus_minus logic
+// Auto-calculate plus_minus logic with formatting
 function setupAutoPlusMinusCalculation() {
+  setupFormattedInput('klaim-klaim');
+  setupFormattedInput('klaim-biling');
+  
   const klaimIn = document.getElementById('klaim-klaim');
   const bilingIn = document.getElementById('klaim-biling');
-  const plusMinusIn = document.getElementById('klaim-plusminus');
-  
-  const calculate = () => {
-    const klaim = parseInt(klaimIn.value) || 0;
-    const biling = parseInt(bilingIn.value) || 0;
-    plusMinusIn.value = klaim - biling;
-  };
-  
-  klaimIn.addEventListener('input', calculate);
-  bilingIn.addEventListener('input', calculate);
+  if (klaimIn && bilingIn) {
+    const calc = () => {
+      calculatePlusMinus();
+    };
+    klaimIn.addEventListener('input', calc);
+    bilingIn.addEventListener('input', calc);
+  }
 }
 
 // ================================================================= //
@@ -436,6 +519,10 @@ window.openAddKlaimModal = function() {
   document.getElementById('klaim-id').value = '';
   document.getElementById('form-klaim').reset();
   
+  document.getElementById('klaim-klaim').value = '0,00';
+  document.getElementById('klaim-biling').value = '0,00';
+  document.getElementById('klaim-plusminus').value = '0,00';
+  
   // Reset dynamic inputs
   renderDxInputs(['']);
   renderTxInputs(['']);
@@ -452,9 +539,13 @@ window.openEditKlaimModal = function(id) {
   document.getElementById('klaim-no-rm').value = record.no_rm || '';
   document.getElementById('klaim-kelas').value = record.kelas || '3';
   document.getElementById('klaim-los').value = record.los || '';
-  document.getElementById('klaim-klaim').value = record.klaim || 0;
-  document.getElementById('klaim-biling').value = record.biling || 0;
-  document.getElementById('klaim-plusminus').value = record.plus_minus !== undefined ? record.plus_minus : (record.klaim - record.biling);
+  
+  document.getElementById('klaim-klaim').value = formatNumberToIndonesian(record.klaim);
+  document.getElementById('klaim-biling').value = formatNumberToIndonesian(record.biling);
+  document.getElementById('klaim-plusminus').value = formatNumberToIndonesian(
+    record.plus_minus !== undefined ? record.plus_minus : (record.klaim - record.biling)
+  );
+  
   document.getElementById('klaim-krs').value = parseDateForInput(record.krs);
   document.getElementById('klaim-tgl-kerja').value = parseDateForInput(record.tgl_mengerjakan);
   document.getElementById('klaim-catatan').value = record.catatan || '';
@@ -488,10 +579,10 @@ document.getElementById('form-klaim').addEventListener('submit', async (e) => {
     no_rm,
     dx,
     tx,
-    klaim,
-    biling,
+    klaim: parseFormattedNumber(klaim),
+    biling: parseFormattedNumber(biling),
     kelas,
-    plus_minus,
+    plus_minus: parseFormattedNumber(plus_minus),
     krs,
     tgl_mengerjakan,
     catatan,
@@ -729,8 +820,13 @@ function setupEventListeners() {
     showPage('year-container');
   });
 
-  // Logout button
-  document.getElementById('logout-btn').addEventListener('click', logout);
+  // Logout button with confirmation dialog
+  document.getElementById('logout-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (confirm("Apakah Anda yakin ingin keluar?")) {
+      logout();
+    }
+  });
 
   // Sidebar navigation switching
   document.querySelectorAll('.nav-item').forEach(item => {
@@ -828,5 +924,5 @@ function proceedToDashboard() {
 // Window load init check
 window.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
-  verifyToken();
+  logout(); // Force login screen on every new visit
 });

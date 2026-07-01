@@ -156,6 +156,69 @@
       "catatan": "KULTUR - BOF - THORAX",
       "los": "3 HARI",
       "createdAt": "2026-06-16T02:30:38.469Z"
+    },
+    {
+      "id": "mqgihg0y1sivj",
+      "year": 2026,
+      "month": "APRIL",
+      "no_rm": "123456 / ghfr",
+      "dx": [
+        "12"
+      ],
+      "tx": [
+        "43"
+      ],
+      "klaim": 12310,
+      "biling": 23412,
+      "kelas": "3",
+      "plus_minus": -11102,
+      "krs": "2026-06-16",
+      "tgl_mengerjakan": "2026-06-16",
+      "catatan": "2",
+      "los": "",
+      "createdAt": "2026-06-16T10:40:56.674Z"
+    },
+    {
+      "id": "mr27iet99wc5o",
+      "year": 2026,
+      "month": "JULI",
+      "no_rm": "safa",
+      "dx": [
+        "ij8"
+      ],
+      "tx": [
+        "jnk1"
+      ],
+      "klaim": 282234,
+      "biling": 414212,
+      "kelas": "3",
+      "plus_minus": 131977,
+      "krs": "2026-07-15",
+      "tgl_mengerjakan": "2026-07-15",
+      "catatan": "-",
+      "los": "5",
+      "createdAt": "2026-07-01T15:04:41.853Z"
+    },
+    {
+      "id": "mr27jpdckzxeb",
+      "year": 2026,
+      "month": "JULI",
+      "no_rm": "asdfa",
+      "dx": [
+        "jnjk"
+      ],
+      "tx": [
+        "98uj"
+      ],
+      "klaim": 34124,
+      "biling": 12124,
+      "kelas": "3",
+      "plus_minus": 21999,
+      "krs": "2026-07-29",
+      "tgl_mengerjakan": "2026-07-29",
+      "catatan": "nj j",
+      "los": "9",
+      "createdAt": "2026-07-01T15:05:42.192Z"
     }
   ],
   "radiologi": [
